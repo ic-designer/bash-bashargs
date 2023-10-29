@@ -2,32 +2,40 @@
 #TODO: instead of setting the environment, assert that these are setset -euo pipefail
 
 function bashargs::add_optional_flag() {
-    local argname=$1
-    local varname=$2
-     bashargs::_append_arg_list flag $argname $varname optional
+    local -r _argname=$1
+    bashargs::_append_arg_list flag ${_argname} optional
 }
 
 function bashargs::add_optional_value() {
-    local argname=$1
-    local varname=$2
-     bashargs::_append_arg_list value $argname $varname optional
+    local -r _argname=$1
+    bashargs::_append_arg_list value ${_argname} optional
 }
 
 function bashargs::parse_args() {
-     bashargs::_initialize_args
-     bashargs::_process_args $@
+    bashargs::_initialize_args
+    bashargs::_process_args $@
+}
+
+function bashargs::get_arg() {
+    local -r _argname=$1
+    echo ${__BASHARGS_ARRAY__["${_argname}"]}
 }
 
 function  bashargs::_append_arg_list() {
-    argtype=$1
-    argname=$2
-    varname=$3
-    necessity=$4
-    local entry=( $argtype $argname $varname $necessity)
+    local -r _argtype=$1
+    local -r _argname=$2
+    local -r _necessity=$3
+    local -r entry=( $_argtype ${_argname} ${_necessity})
 
-    if [[ -z ${__BASHARGS_ARG_LIST__+x} ]]; then
+    if [[ -z ${__BASHARGS_ARG_LIST__++} ]]; then
         __BASHARGS_ARG_LIST__=( ${entry[@]} )
     else
+        while \read -t 1 -r _ _existing_argname _ ; do
+            if [[ ${_argname} == ${_existing_argname} ]]; then
+                echo "ERROR: repeated argument: ${_argname}" 1>&2
+                exit 1
+            fi
+        done < <(echo $( bashargs::_get_arg_list) | xargs -n 3)
         __BASHARGS_ARG_LIST__=( ${__BASHARGS_ARG_LIST__[@]}  ${entry[@]} )
     fi
 }
@@ -37,47 +45,62 @@ function  bashargs::_get_arg_list() {
 }
 
 function  bashargs::_initialize_args() {
-    while \read -t 1 -r argtype argname varname necessity ; do
-        case ${argtype} in
+    declare -Ag __BASHARGS_ARRAY__
+    while \read -t 1 -r _argtype _argname _necessity ; do
+        if [[ -n ${__BASHARGS_ARRAY__["${_argname}"]++} ]]; then
+            echo "ERROR: repeated argument: ${_argname}" 1>&2
+            exit 1
+        fi
+        case ${_argtype} in
             flag)
-                declare -g "$varname"=false
+                __BASHARGS_ARRAY__["${_argname}"]="false"
                 ;;
-            *)
-                unset $varname
+            value)
+                __BASHARGS_ARRAY__["${_argname}"]=""
                 ;;
-
         esac
-    done < <(echo $( bashargs::_get_arg_list) | xargs -n 4)
+
+    done < <(echo $( bashargs::_get_arg_list) | xargs -n 3)
 }
 
 function  bashargs::_process_args() {
     while [[ $# -gt 0 ]]; do
-        invalid_argument=true
-        while \read -t 1 -r argtype argname varname necessity ; do
-            case ${argtype} in
+        local invalid_argument=true
+        while \read -t 1 -r _argtype _argname _necessity ; do
+            case ${_argtype} in
                 flag)
-                    if [[ "$1" == "--$argname" ]]; then
-                        declare -gr ${varname}=true
+                    if [[ $1 == ${_argname} ]]; then
+                        if [[ ${__BASHARGS_ARRAY__["${_argname}"]} == "true" ]]; then
+                            echo "ERROR: repeated argument: ${_argname}" 1>&2
+                            exit 1
+                        fi
+                        __BASHARGS_ARRAY__["${_argname}"]=true
                         invalid_argument=false
                         shift
                         break
                     fi
                     ;;
                 value)
-                    if [[ "$1" == "--${argname}=*)" ]]; then
-                        declare -gr ${varname}="${1#*=}"
+                    if [[ $1 =~ ${_argname}=* ]]; then
+                        if [[ -n ${__BASHARGS_ARRAY__["${_argname}"]} ]]; then
+                            echo "ERROR: repeated argument: ${_argname}" 1>&2
+                            exit 1
+                        fi
+                        __BASHARGS_ARRAY__["${_argname}"]="${1#*=}"
                         invalid_argument=false
                         shift
                         break
                     fi
                     ;;
                 *)
-                    fatal "ERROR: unknown arguemnt type: ${argtype}"
+                    echo "ERROR: unknown arguemnt type: ${_argtype}"
+                    exit 1
                     ;;
             esac
-        done < <(echo $( bashargs::_get_arg_list) | xargs -n 4 2>/dev/null)
+        done < <(echo $( bashargs::_get_arg_list) | xargs -n 3 2>/dev/null)
         if [[ "${invalid_argument}" == "true" ]]; then
-            fatal "Unknown option $1"
+            echo "ERROR: Unknown option $1"
+            exit 1
         fi
     done
 }
