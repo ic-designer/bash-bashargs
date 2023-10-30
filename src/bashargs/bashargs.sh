@@ -45,7 +45,9 @@ function  bashargs::_get_arg_list() {
 }
 
 function  bashargs::_initialize_args() {
+    unset __BASHARGS_ARRAY__
     declare -Ag __BASHARGS_ARRAY__
+
     while \read -t 1 -r _argtype _argname _necessity ; do
         if [[ -n ${__BASHARGS_ARRAY__["${_argname}"]++} ]]; then
             echo "ERROR: repeated argument: ${_argname}" 1>&2
