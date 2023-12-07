@@ -43,7 +43,7 @@ function  bashargs::_append_arg_list() {
                 echo "ERROR: repeated argument: ${_argname}" 1>&2
                 exit 1
             fi
-        done < <(echo $( bashargs::_get_arg_list) | xargs -n 3)
+        done < <(echo $( bashargs::_get_arg_list) | xargs -n 3 2>/dev/null)
         __BASHARGS_ARG_LIST__=( ${__BASHARGS_ARG_LIST__[@]}  ${entry[@]} )
     fi
 }
@@ -57,7 +57,7 @@ function bashargs::_check_required_args() {
             fi
 
         fi
-    done < <(echo $( bashargs::_get_arg_list) | xargs -n 3)
+    done < <(echo $( bashargs::_get_arg_list) | xargs -n 3 2>/dev/null)
 }
 
 function  bashargs::_get_arg_list() {
@@ -80,7 +80,7 @@ function  bashargs::_initialize_optional_args() {
                     ;;
             esac
         fi
-    done < <(echo $( bashargs::_get_arg_list) | xargs -n 3)
+    done < <(echo $( bashargs::_get_arg_list) | xargs -n 3 2>/dev/null)
 }
 
 function  bashargs::_process_args() {
