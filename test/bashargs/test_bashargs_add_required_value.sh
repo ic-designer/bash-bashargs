@@ -2,7 +2,7 @@
 function test_bashargs_add_required_value_parse_without_value() {
     local return_code=0
     bashargs::add_required_value --argname
-    bashargs::parse_args || return_code=1
+    $(bashargs::parse_args) || return_code=1
     [[ $return_code -eq 1 ]]
 }
 

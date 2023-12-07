@@ -51,7 +51,11 @@ function  bashargs::_append_arg_list() {
 function bashargs::_check_required_args() {
     while \read -t 1 -r _argtype _argname _necessity ; do
         if [[ ${_necessity} == "required" ]]; then
-            get_arg ${_argname}
+            if [[ -z ${__BASHARGS_ARRAY__["${_argname}"]++} ]]; then
+                echo "ERROR: missing required argument: ${_argname}" 1>&2
+                exit 1
+            fi
+
         fi
     done < <(echo $( bashargs::_get_arg_list) | xargs -n 3)
 }
