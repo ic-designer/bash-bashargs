@@ -11,9 +11,17 @@ function bashargs::add_optional_value() {
     bashargs::_append_arg_list value ${_argname} optional
 }
 
+function bashargs::add_required_value() {
+    local -r _argname=$1
+    bashargs::_append_arg_list value ${_argname} required
+}
+
 function bashargs::parse_args() {
-    bashargs::_initialize_args
+    unset __BASHARGS_ARRAY__
+    declare -Ag __BASHARGS_ARRAY__
+    bashargs::_initialize_optional_args
     bashargs::_process_args $@
+    bashargs::_check_required_args $@
 }
 
 function bashargs::get_arg() {
@@ -40,28 +48,34 @@ function  bashargs::_append_arg_list() {
     fi
 }
 
+function bashargs::_check_required_args() {
+    while \read -t 1 -r _argtype _argname _necessity ; do
+        if [[ ${_necessity} == "required" ]]; then
+            get_arg ${_argname}
+        fi
+    done < <(echo $( bashargs::_get_arg_list) | xargs -n 3)
+}
+
 function  bashargs::_get_arg_list() {
     echo "${__BASHARGS_ARG_LIST__[@]}"
 }
 
-function  bashargs::_initialize_args() {
-    unset __BASHARGS_ARRAY__
-    declare -Ag __BASHARGS_ARRAY__
-
+function  bashargs::_initialize_optional_args() {
     while \read -t 1 -r _argtype _argname _necessity ; do
         if [[ -n ${__BASHARGS_ARRAY__["${_argname}"]++} ]]; then
             echo "ERROR: repeated argument: ${_argname}" 1>&2
             exit 1
         fi
-        case ${_argtype} in
-            flag)
-                __BASHARGS_ARRAY__["${_argname}"]="false"
-                ;;
-            value)
-                __BASHARGS_ARRAY__["${_argname}"]=""
-                ;;
-        esac
-
+        if [[ ${_necessity} == "optional" ]]; then
+            case ${_argtype} in
+                flag)
+                    __BASHARGS_ARRAY__["${_argname}"]="false"
+                    ;;
+                value)
+                    __BASHARGS_ARRAY__["${_argname}"]=""
+                    ;;
+            esac
+        fi
     done < <(echo $( bashargs::_get_arg_list) | xargs -n 3)
 }
 
@@ -84,9 +98,11 @@ function  bashargs::_process_args() {
                     ;;
                 value)
                     if [[ $1 =~ ${_argname}=* ]]; then
-                        if [[ -n ${__BASHARGS_ARRAY__["${_argname}"]} ]]; then
-                            echo "ERROR: repeated argument: ${_argname}" 1>&2
-                            exit 1
+                        if [[ ${__BASHARGS_ARRAY__[@]++} ]]; then
+                            if [[ -n ${__BASHARGS_ARRAY__["${_argname}"]} ]]; then
+                                echo "ERROR: repeated argument: ${_argname}" 1>&2
+                                exit 1
+                            fi
                         fi
                         __BASHARGS_ARRAY__["${_argname}"]="${1#*=}"
                         invalid_argument=false
