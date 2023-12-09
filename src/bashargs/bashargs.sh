@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 #TODO: instead of setting the environment, assert that these are setset -euo pipefail
 
 function bashargs::add_optional_flag() {
