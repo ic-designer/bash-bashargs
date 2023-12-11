@@ -17,8 +17,7 @@ function bashargs::add_required_value() {
 }
 
 function bashargs::parse_args() {
-    unset __BASHARGS_ARRAY__
-    declare -Ag __BASHARGS_ARRAY__
+    unset ${!__BASHARGS_ARRAY__@}
     bashargs::_initialize_optional_args
     bashargs::_process_args $@
     bashargs::_check_required_args $@
@@ -26,8 +25,10 @@ function bashargs::parse_args() {
 
 function bashargs::get_arg() {
     local -r _argname=$1
-    echo ${__BASHARGS_ARRAY__["${_argname}"]}
+    local -r __BASHARGS_ARRAY_ARGNAME__=$(bashargs::_get_arg_varname ${_argname})
+    echo ${!__BASHARGS_ARRAY_ARGNAME__}
 }
+
 
 function  bashargs::_append_arg_list() {
     local -r _argtype=$1
@@ -51,7 +52,8 @@ function  bashargs::_append_arg_list() {
 function bashargs::_check_required_args() {
     while \read -t 1 -r _argtype _argname _necessity ; do
         if [[ ${_necessity} == "required" ]]; then
-            if [[ -z ${__BASHARGS_ARRAY__["${_argname}"]++} ]]; then
+            local __BASHARGS_ARRAY_ARGNAME__=$(bashargs::_get_arg_varname ${_argname})
+            if [[ -z ${!__BASHARGS_ARRAY_ARGNAME__++} ]]; then
                 echo "ERROR: missing required argument: ${_argname}" 1>&2
                 exit 1
             fi
@@ -64,19 +66,25 @@ function  bashargs::_get_arg_list() {
     echo "${__BASHARGS_ARG_LIST__[@]}"
 }
 
+function bashargs::_get_arg_varname() {
+    local -r _argname=$1
+    echo "__BASHARGS_ARRAY__${_argname//-/_}"
+}
+
 function  bashargs::_initialize_optional_args() {
     while \read -t 1 -r _argtype _argname _necessity ; do
-        if [[ -n ${__BASHARGS_ARRAY__["${_argname}"]++} ]]; then
+        local __BASHARGS_ARRAY_ARGNAME__=$(bashargs::_get_arg_varname ${_argname})
+        if [[ -n ${!__BASHARGS_ARRAY_ARGNAME__++} ]]; then
             echo "ERROR: repeated argument: ${_argname}" 1>&2
             exit 1
         fi
         if [[ ${_necessity} == "optional" ]]; then
             case ${_argtype} in
                 flag)
-                    __BASHARGS_ARRAY__["${_argname}"]="false"
+                    export ${__BASHARGS_ARRAY_ARGNAME__}=false
                     ;;
                 value)
-                    __BASHARGS_ARRAY__["${_argname}"]=""
+                    export ${__BASHARGS_ARRAY_ARGNAME__}=
                     ;;
             esac
         fi
@@ -87,14 +95,17 @@ function  bashargs::_process_args() {
     while [[ $# -gt 0 ]]; do
         local invalid_argument=true
         while \read -t 1 -r _argtype _argname _necessity ; do
+            local __BASHARGS_ARRAY_ARGNAME__=$(bashargs::_get_arg_varname ${_argname})
             case ${_argtype} in
                 flag)
                     if [[ $1 == ${_argname} ]]; then
-                        if [[ ${__BASHARGS_ARRAY__["${_argname}"]} == "true" ]]; then
-                            echo "ERROR: repeated argument: ${_argname}" 1>&2
-                            exit 1
+                        if [[ -n ${!__BASHARGS_ARRAY_ARGNAME__++} ]]; then
+                            if [[ ${!__BASHARGS_ARRAY_ARGNAME__} == "true" ]]; then
+                                echo "ERROR: repeated argument: ${_argname}" 1>&2
+                                exit 1
+                            fi
                         fi
-                        __BASHARGS_ARRAY__["${_argname}"]=true
+                        export ${__BASHARGS_ARRAY_ARGNAME__}=true
                         invalid_argument=false
                         shift
                         break
@@ -102,13 +113,13 @@ function  bashargs::_process_args() {
                     ;;
                 value)
                     if [[ $1 =~ ${_argname}=* ]]; then
-                        if [[ ${__BASHARGS_ARRAY__[@]++} ]]; then
-                            if [[ -n ${__BASHARGS_ARRAY__["${_argname}"]} ]]; then
+                        if [[ -n ${!__BASHARGS_ARRAY_ARGNAME__++} ]]; then
+                            if [[ -n ${!__BASHARGS_ARRAY_ARGNAME__} ]]; then
                                 echo "ERROR: repeated argument: ${_argname}" 1>&2
                                 exit 1
                             fi
                         fi
-                        __BASHARGS_ARRAY__["${_argname}"]="${1#*=}"
+                        export ${__BASHARGS_ARRAY_ARGNAME__}=${1#*=}
                         invalid_argument=false
                         shift
                         break
