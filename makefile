@@ -13,7 +13,7 @@ OBJ_TEST_ALL:=$(DIR_BUILD_TEST)/test_bashargs_all.sh
 
 WAXWING_PATH:=$(DIR_BUILD_DEPS)/waxwing
 WAXWING_BIN:=$(WAXWING_PATH)/bin/waxwing
-WAXWING_URL:=git@github.com:jfredenburg/waxwing.git
+WAXWING_URL:=git@github.com:ic-designer/waxwing.git
 $(WAXWING_BIN): | $(WAXWING_PATH)/.
 	git clone  $(WAXWING_URL) $(WAXWING_PATH)
 
