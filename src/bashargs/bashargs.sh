@@ -73,20 +73,22 @@ function bashargs::_get_arg_varname() {
 
 function  bashargs::_initialize_optional_args() {
     while \read -t 1 -r _argtype _argname _necessity ; do
-        local __BASHARGS_ARRAY_ARGNAME__=$(bashargs::_get_arg_varname ${_argname})
-        if [[ -n ${!__BASHARGS_ARRAY_ARGNAME__++} ]]; then
-            echo "ERROR: repeated argument: ${_argname}" 1>&2
-            exit 1
-        fi
-        if [[ ${_necessity} == "optional" ]]; then
-            case ${_argtype} in
-                flag)
-                    export ${__BASHARGS_ARRAY_ARGNAME__}=false
-                    ;;
-                value)
-                    export ${__BASHARGS_ARRAY_ARGNAME__}=
-                    ;;
-            esac
+        if [[ -n ${_argname} ]]; then
+            local __BASHARGS_ARRAY_ARGNAME__=$(bashargs::_get_arg_varname ${_argname})
+            if [[ -n ${!__BASHARGS_ARRAY_ARGNAME__++} ]]; then
+                echo "ERROR: repeated argument: ${_argname}" 1>&2
+                exit 1
+            fi
+            if [[ ${_necessity} == "optional" ]]; then
+                case ${_argtype} in
+                    flag)
+                        export ${__BASHARGS_ARRAY_ARGNAME__}=false
+                        ;;
+                    value)
+                        export ${__BASHARGS_ARRAY_ARGNAME__}=
+                        ;;
+                esac
+            fi
         fi
     done < <(echo $( bashargs::_get_arg_list) | xargs -n 3 2>/dev/null)
 }
