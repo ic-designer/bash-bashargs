@@ -25,9 +25,9 @@ SHELL = /usr/bin/env bash
 
 
 # Paths
-DIR_BUILD:=.make
-DIR_BUILD_PKGS:=$(DIR_BUILD)/pkgs
-DIR_BUILD_TEST:=$(DIR_BUILD)/test
+override DIR_BUILD:=.build
+override DIR_BUILD_PKGS:=$(DIR_BUILD)/pkgs
+override DIR_BUILD_TEST:=$(DIR_BUILD)/test
 
 
 # Includes
