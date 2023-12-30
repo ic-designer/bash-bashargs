@@ -12,7 +12,7 @@ include make/extras.mk
 WAXWING:=$(DIR_BUILD_PKGS)/waxwing/bin/waxwing
 $(WAXWING): |$(DIR_BUILD_PKGS)/.
 	$(call git-clone-shallow, \
-			git@github.com:jfredenburg/waxwing.git, \
+			git@github.com:ic-designer/waxwing.git, \
 			$(DIR_BUILD_PKGS)/waxwing, \
 			main)
 
