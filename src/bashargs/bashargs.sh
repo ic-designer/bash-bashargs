@@ -1,6 +1,3 @@
-#!/usr/bin/env bash
-#TODO: instead of setting the environment, assert that these are setset -euo pipefail
-
 function bashargs::add_optional_flag() {
     local -r _argname=$1
     bashargs::_append_arg_list flag ${_argname} optional
