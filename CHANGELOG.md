@@ -22,3 +22,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Deprecated
 ### Fixed
 ### Security
+
+## [0.1.1] - 2023-12-30
+
+### Fixed
+- Updated the Changelog for the 0.1.0 and 0.1.1 releases.
+
+## [0.1.0] - 2023-12-30
+
+### Added
+- Library of functions to parse named command line arguments.
+- Test scripts
+- Makefile to build and run tests
+- GitHub workflow to perform automated testing
