@@ -23,5 +23,8 @@ jobs:
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+    - name: Run check
+      run: make clean check
+
     - name: Run test
-      run: make test
+      run: make clean test
