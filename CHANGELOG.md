@@ -18,7 +18,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - YYYY-MM-DD
 
 ### Added
+- GitHub workflow now runs both `make check` and `make test` as part of automated testing.
 ### Changed
+- Renamed the Makefile from `makefile` to `Makefile`
+- Reorganized the structure of the Makefile
+- Updated Makefile variables names to maintain consistency with other similar repos.
 ### Deprecated
 ### Fixed
 ### Security
