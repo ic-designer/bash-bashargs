@@ -1,5 +1,14 @@
-override VERSION:=0.2.0+20231230
+# Config
+.DELETE_ON_ERROR:
+.SUFFIXES:
+MAKEFLAGS += --no-builtin-rules
 
+# Constants
+override NAME := bashargs
+override VERSION := $(shell git describe --always --dirty --broken)
+override WORKDIR_ROOT := $(CURDIR)/.make
+
+#Targets
 .PHONY: check
 check: private_test
 
@@ -15,20 +24,5 @@ pkg_override: private_pkg_override
 .PHONY: test
 test: private_test
 
-
-# Config
-.DELETE_ON_ERROR:
-.SUFFIXES:
-MAKEFLAGS += --no-builtin-rules
-SHELL = /usr/bin/env bash
-.SHELLFLAGS += -e -o pipefail
-
-
-# Paths
-override DIR_BUILD:=.build
-override DIR_BUILD_PKGS:=$(DIR_BUILD)/pkgs
-override DIR_BUILD_TEST:=$(DIR_BUILD)/test
-
-
-# Includes
+#Includes
 include make/private.mk
