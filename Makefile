@@ -1,4 +1,4 @@
-override VERSION:=0.1.0+20231228
+override VERSION:=0.2.0+20231230
 
 .PHONY: check
 check: private_test
