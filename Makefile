@@ -15,12 +15,6 @@ check: private_test
 .PHONY: clean
 clean: private_clean
 
-.PHONY: pkg_list
-pkg_list: private_pkg_list
-
-.PHONY: pkg_override
-pkg_override: private_pkg_override
-
 .PHONY: test
 test: private_test
 
