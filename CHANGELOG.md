@@ -15,7 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 ```
 
-## [Unreleased] - YYYY-MM-DD
+## [0.2.0] - 2024-01-08
 
 ### Added
 - Added an `install` target to standardize the usage of the library
@@ -24,9 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Renamed the Makefile from `makefile` to `Makefile`
 - Reorganized the structure of the Makefile
 - Updated Makefile variables names to maintain consistency with other similar repos.
-### Deprecated
-### Fixed
-### Security
+
 
 ## [0.1.1] - 2023-12-30
 
