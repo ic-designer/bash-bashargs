@@ -18,7 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased] - YYYY-MM-DD
 
 ### Added
-- GitHub workflow now runs both `make check` and `make test` as part of automated testing.
+- Added an `install` target to standardize the usage of the library
+- GitHub workflow expanded to call targets `check`, `test`, `install`, `uninstall`
 ### Changed
 - Renamed the Makefile from `makefile` to `Makefile`
 - Reorganized the structure of the Makefile
