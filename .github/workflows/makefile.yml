@@ -28,3 +28,9 @@ jobs:
 
     - name: Run test
       run: make clean test
+
+    - name: Run mock install and uninstall
+      run: make clean install uninstall DESTDIR=.make
+
+    - name: Run install and uninstall
+      run: make clean install uninstall
