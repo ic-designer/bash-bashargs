@@ -8,10 +8,6 @@ DESTDIR =
 PREFIX = $(HOME)/.local
 LIBDIR = $(PREFIX)/lib
 
-override NAME := bashargs
-override VERSION := $(shell git describe --always --dirty --broken)
-override WORKDIR_ROOT := $(CURDIR)/.make
-
 #Targets
 .PHONY: all
 all: private_all
