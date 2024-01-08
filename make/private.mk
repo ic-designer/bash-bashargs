@@ -13,15 +13,19 @@ override WORKDIR_ROOT := $(CURDIR)/.make
 override WORKDIR_TEST = $(WORKDIR)/test
 
 # Includes
-include make/extras.mk
+BOXERBIRD.MK := $(WORKDIR_DEPS)/boxerbird/boxerbird.mk
+$(BOXERBIRD.MK):
+	@echo "Loading Boxerbird..."
+	git clone git@github.com:ic-designer/make-boxerbird.git --branch 0.1.0 $(dir $@)
+	@echo
+-include $(BOXERBIRD.MK)
 
 # Dependencies
-WAXWING:=$(WORKDIR_DEPS)/waxwing/bin/waxwing
-$(WAXWING): |$(WORKDIR_DEPS)/.
-	$(call git-clone-shallow, \
-			git@github.com:ic-designer/waxwing.git, \
-			$(WORKDIR_DEPS)/waxwing, \
-			main)
+WAXWING := $(WORKDIR_DEPS)/waxwing/bin/waxwing
+$(WAXWING):
+	@echo "Loading Waxwing..."
+	git clone git@github.com:ic-designer/bash-waxwing.git --branch main $(WORKDIR_DEPS)/waxwing
+	@echo
 
 # Targets
 .PHONE: private_all
@@ -29,7 +33,7 @@ private_all: $(WORKDIR_BUILD)/bashargs.sh
 	@for f in $^; do test -f $${f}; done
 
 $(WORKDIR_BUILD)/bashargs.sh: src/bashargs/bashargs.sh
-	$(call install-as-copy)
+	$(boxerbird::install-as-copy)
 
 
 .PHONY: private_clean
@@ -47,7 +51,7 @@ private_clean:
 private_install: $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh
 
 $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh: $(WORKDIR_BUILD)/bashargs.sh
-	$(call install-as-copy)
+	$(boxerbird::install-as-copy)
 
 
 .PHONY: private_test
@@ -57,7 +61,7 @@ private_test: $(WAXWING) $(WORKDIR_TEST)/test-bashargs.sh
 $(WORKDIR_TEST)/test-bashargs.sh: \
 		$(WORKDIR_TEST)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh \
 		$(shell find test/bashargs -name 'test_bashargs*.sh')
-	$(build-bash-library)
+	$(boxerbird::build-bash-library)
 
 ifneq ($(DESTDIR),  $(WORKDIR_TEST))
 $(WORKDIR_TEST)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh:
@@ -71,15 +75,3 @@ private_uninstall:
 	@\rm -rdfv $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR) 2> /dev/null || true
 	@\rm -dv $(dir $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)) 2> /dev/null || true
 	@\rm -dv $(DESTDIR)/$(LIBDIR) 2> /dev/null || true
-
-
-.PHONY: private_pkg_list
-private_pkg_list:
-	$(call git-list-remotes, $(WORKDIR_DEPS))
-
-
-.PHONY: private_pkg_override
-private_pkg_override: REPO_NAME ?= $(error ERROR: Name not defined. Please defined REPO_NAME=<name>)
-private_pkg_override: REPO_PATH ?= $(error ERROR: Repo not defined. Please defined REPO_PATH=<path>)
-private_pkg_override:
-	$(call git-clone-shallow, $(REPO_PATH), $(WORKDIR_DEPS)/$(REPO_NAME))
