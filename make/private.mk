@@ -37,6 +37,7 @@ $(WORKDIR_BUILD)/bashargs.sh: src/bashargs/bashargs.sh
 private_clean:
 	@echo "Cleaning directories:"
 	@$(if $(wildcard $(WORKDIR)), rm -rfv $(WORKDIR))
+	@$(if $(wildcard $(WORKDIR_BUILD)), rm -rfv $(WORKDIR_BUILD))
 	@$(if $(wildcard $(WORKDIR_DEPS)), rm -rfv $(WORKDIR_DEPS))
 	@$(if $(wildcard $(WORKDIR_ROOT)), rm -rfv $(WORKDIR_ROOT))
 	@$(if $(wildcard $(WORKDIR_TEST)), rm -rfv $(WORKDIR_TEST))
