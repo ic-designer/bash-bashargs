@@ -27,6 +27,7 @@ $(WAXWING): |$(WORKDIR_DEPS)/.
 # Targets
 .PHONE: private_all
 private_all: $(WORKDIR_BUILD)/bashargs.sh
+	@for f in $^; do test -f $${f}; done
 
 $(WORKDIR_BUILD)/bashargs.sh: src/bashargs/bashargs.sh
 	$(call install-as-copy)
