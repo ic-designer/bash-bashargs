@@ -15,11 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 ```
 
-## [Unreleased] - YYYY-MM-DD
+## [0.2.1] - 2024-01-08
 
 ### Added
+- Code usage snippet now included in the readme.
 ### Changed
-### Deprecated
+- Shared makefile utilities are now cloned from the Boxerbird repo
 ### Fixed
 - Corrected issue with GitHub workflow where make target were not properly ran by calling each
   make target as a seperate command.
@@ -41,6 +42,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Updated the Changelog for the 0.1.0 and 0.1.1 releases.
+
 
 ## [0.1.0] - 2023-12-30
 
