@@ -2,10 +2,12 @@
 DESTDIR ?= $(error ERROR: Undefined variable DESTDIR)
 PREFIX ?= $(error ERROR: Undefined variable PREFIX)
 LIBDIR ?= $(error ERROR: Undefined variable LIBDIR)
+
 NAME ?= $(error ERROR: Undefined variable NAME)
 VERSION ?= $(error ERROR: Undefined variable VERSION)
 WORKDIR_ROOT ?= $(error ERROR: Undefined variable WORKDIR_ROOT)
-override PKGSUBDIR = $(NAME)/$(NAME)-$(VERSION)
+
+override PKGSUBDIR = $(NAME)
 override WORKDIR = $(WORKDIR_ROOT)
 override WORKDIR_BUILD = $(WORKDIR)/build
 override WORKDIR_DEPS = $(WORKDIR)/deps
