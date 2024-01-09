@@ -8,7 +8,7 @@ DESTDIR =
 PREFIX = $(HOME)/.local
 LIBDIR = $(PREFIX)/lib
 
-#Targets
+# Targets
 .PHONY: all
 all: private_all
 
@@ -27,5 +27,5 @@ test: private_test
 .PHONY: uninstall
 uninstall: private_uninstall
 
-#Includes
+# Includes
 include make/private.mk
