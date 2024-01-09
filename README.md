@@ -4,15 +4,12 @@
 
 ## Usage
 
-The `bashargs` library can be loaded using following code snippet.
+The `bashargs` library can be used within a Makefile as follows.
 
 ```make
-BASHARGS := $(WORKDIR_BUILD)/lib/bashargs/bashargs.sh
-$(BASHARGS):
-	@echo "Installing bashargs..."
-	git clone --config advice.detachedHead=false \
-		git@github.com:ic-designer/bash-bashargs.git --branch 0.2.0 $(WORKDIR_DEPS)/bashargs
-	$(MAKE) -C $(WORKDIR_DEPS)/bashargs install DESTDIR=$(abspath $(WORKDIR_BUILD)) LIBDIR=lib
+BASHARGS.SH := lib/bashargs/bashargs.sh
+$(BASHARGS.SH):
+	curl -sL https://github.com/ic-designer/bash-bashargs/archive/refs/tags/0.2.1.tar.gz | tar xz
+	$(MAKE) -C bash-bashargs-0.2.1 install DESTDIR=$(CURDIR) LIBDIR=lib
 	test -f $@
-	@echo
 ```

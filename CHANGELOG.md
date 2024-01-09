@@ -7,13 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ```markdown
 ## [Unreleased] - YYYY-MM-DD
-
 ### Added
 ### Changed
 ### Deprecated
 ### Fixed
 ### Security
 ```
+
+## [Unreleased] - YYYY-MM-DD
+### Added
+### Changed
+- README.md updated to describe downloading release archives with `curl` and untaring instead
+  of `cloning` with git.
+### Deprecated
+### Fixed
+### Security
+
 
 ## [0.2.1] - 2024-01-08
 
