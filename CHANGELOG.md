@@ -14,14 +14,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 ```
 
-## [Unreleased] - YYYY-MM-DD
+## [0.3.0] - 2024-01-10
 ### Added
+- The version for boxerbird and waxwing can be controlled using the Makefile variables
+  `BOXERBIRD_BRANCH` and `WAXWING_BRANCH`.
 ### Changed
 - README.md updated to describe downloading release archives with `curl` and untaring instead
   of `cloning` with git.
-### Deprecated
+- The Makefile variable WORKDIR_ROOT can now be overidden on the command line.
+- Build dependencies are now populated under `$(WORKDIR_ROOT)/deps/`.
+- Build artifacts are now populated under `$(WORKDIR_ROOT)/build/`.
+- Test artifacts are now populated under`$(WORKDIR_ROOT)/test/`.
 ### Fixed
-### Security
+- Corrected issue with GitHub workflow where make target were not properly ran by calling each
+  make target as a seperate command.
 
 
 ## [0.2.1] - 2024-01-08
