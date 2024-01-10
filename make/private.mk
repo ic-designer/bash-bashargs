@@ -5,7 +5,7 @@ LIBDIR ?= $(error ERROR: Undefined variable LIBDIR)
 
 override NAME := bashargs
 override PKGSUBDIR = $(NAME)
-override VERSION := $(shell git describe --always --dirty --broken)
+override VERSION := $(shell git describe --always --dirty --broken 2> /dev/null)
 override WORKDIR = $(WORKDIR_ROOT)/$(NAME)/$(VERSION)
 override WORKDIR_BUILD = $(WORKDIR)/build
 override WORKDIR_DEPS = $(WORKDIR)/deps
