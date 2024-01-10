@@ -25,7 +25,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [0.2.1] - 2024-01-08
-
 ### Added
 - Code usage snippet now included in the readme.
 ### Changed
@@ -37,7 +36,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [0.2.0] - 2024-01-08
-
 ### Added
 - Added an `install` target to standardize the usage of the library
 - GitHub workflow expanded to call targets `check`, `test`, `install`, `uninstall`
@@ -48,13 +46,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 ## [0.1.1] - 2023-12-30
-
 ### Fixed
 - Updated the Changelog for the 0.1.0 and 0.1.1 releases.
 
 
 ## [0.1.0] - 2023-12-30
-
 ### Added
 - Library of functions to parse named command line arguments.
 - Test scripts
