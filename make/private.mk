@@ -2,15 +2,14 @@
 DESTDIR ?= $(error ERROR: Undefined variable DESTDIR)
 PREFIX ?= $(error ERROR: Undefined variable PREFIX)
 LIBDIR ?= $(error ERROR: Undefined variable LIBDIR)
+WORKDIR_ROOT ?= $(error ERROR: Undefined variable WORKDIR_ROOT)
 
 override NAME := bashargs
 override PKGSUBDIR = $(NAME)
 override VERSION := $(shell git describe --always --dirty --broken 2> /dev/null)
-override WORKDIR = $(WORKDIR_ROOT)/$(NAME)/$(VERSION)
-override WORKDIR_BUILD = $(WORKDIR)/build
-override WORKDIR_DEPS = $(WORKDIR)/deps
-override WORKDIR_ROOT := $(CURDIR)/.make
-override WORKDIR_TEST = $(WORKDIR)/test
+override WORKDIR_BUILD = $(WORKDIR_ROOT)/build/$(NAME)/$(VERSION)
+override WORKDIR_DEPS = $(WORKDIR_ROOT)/deps
+override WORKDIR_TEST = $(WORKDIR_ROOT)/test/$(NAME)/$(VERSION)
 
 # Includes
 BOXERBIRD.MK := $(WORKDIR_DEPS)/boxerbird/boxerbird.mk
@@ -41,7 +40,6 @@ $(WORKDIR_BUILD)/bashargs.sh: src/bashargs/bashargs.sh
 .PHONY: private_clean
 private_clean:
 	@echo "Cleaning directories:"
-	@$(if $(wildcard $(WORKDIR)), rm -rfv $(WORKDIR))
 	@$(if $(wildcard $(WORKDIR_BUILD)), rm -rfv $(WORKDIR_BUILD))
 	@$(if $(wildcard $(WORKDIR_DEPS)), rm -rfv $(WORKDIR_DEPS))
 	@$(if $(wildcard $(WORKDIR_ROOT)), rm -rfv $(WORKDIR_ROOT))

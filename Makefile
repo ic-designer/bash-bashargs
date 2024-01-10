@@ -7,6 +7,8 @@ MAKEFLAGS += --no-builtin-rules
 DESTDIR =
 PREFIX = $(HOME)/.local
 LIBDIR = $(PREFIX)/lib
+WORKDIR_ROOT := $(CURDIR)/.make
+
 
 # Targets
 .PHONY: all
