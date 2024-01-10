@@ -29,7 +29,7 @@ $(WAXWING):
 	@echo
 
 # Targets
-.PHONE: private_all
+.PHONY: private_all
 private_all: $(WORKDIR_BUILD)/bashargs.sh
 	@for f in $^; do test -f $${f}; done
 
