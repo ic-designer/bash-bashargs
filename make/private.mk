@@ -35,16 +35,20 @@ $(WORKDIR_BUILD)/bashargs.sh: src/bashargs/bashargs.sh
 
 .PHONY: private_clean
 private_clean:
-	@echo "Cleaning directories:"
+	@echo "INFO: Cleaning directories:"
 	@$(if $(wildcard $(WORKDIR_BUILD)), rm -rfv $(WORKDIR_BUILD))
 	@$(if $(wildcard $(WORKDIR_DEPS)), rm -rfv $(WORKDIR_DEPS))
 	@$(if $(wildcard $(WORKDIR_ROOT)), rm -rfv $(WORKDIR_ROOT))
 	@$(if $(wildcard $(WORKDIR_TEST)), rm -rfv $(WORKDIR_TEST))
+	@echo "INFO: Cleaning complete"
 	@echo
 
 
 .PHONY: private_install
 private_install: $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh
+	test -f $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh
+	@echo "INFO: Installation complete"
+	@echo
 
 $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh: $(WORKDIR_BUILD)/bashargs.sh
 	$(boxerbird::install-as-copy)
@@ -62,3 +66,5 @@ private_uninstall:
 	@\rm -rdfv $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR) 2> /dev/null || true
 	@\rm -dv $(dir $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)) 2> /dev/null || true
 	@\rm -dv $(DESTDIR)/$(LIBDIR) 2> /dev/null || true
+	@echo "INFO: Uninstallation complete"
+	@echo
