@@ -1,15 +1,3 @@
-# Config
-.DELETE_ON_ERROR:
-.SUFFIXES:
-MAKEFLAGS += --no-builtin-rules
-
-# Constants
-DESTDIR =
-PREFIX = $(HOME)/.local
-LIBDIR = $(PREFIX)/lib
-WORKDIR_ROOT := $(CURDIR)/.make
-
-
 # Targets
 .PHONY: all
 all: private_all
