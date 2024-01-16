@@ -14,6 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 ```
 
+## [0.3.1] - 2024-01-16
+### Added
+- Improved the verbosity of the Makefile targets to help indicate when targets are completed.
+- Created tests for the Makefile installation path variables.
+### Changed
+- Moved variables out of the primary Makefile and into private.mk to simplify the Makefile itself.
+
+
 ## [0.3.0] - 2024-01-10
 ### Added
 - The version for boxerbird and waxwing can be controlled using the Makefile variables
