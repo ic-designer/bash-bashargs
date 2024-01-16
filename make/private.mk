@@ -20,6 +20,8 @@ override WORKDIR_TEST = $(WORKDIR_ROOT)/test/$(NAME)/$(VERSION)
 
 # Includes
 include make/deps.mk
+include test/bashargs/test_bashargs.mk
+include test/makefile/test_makefile.mk
 -include $(BOXERBIRD.MK)
 
 # Targets
@@ -49,18 +51,9 @@ $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh: $(WORKDIR_BUILD)/bashargs.sh
 
 
 .PHONY: private_test
-private_test: $(WAXWING) $(WORKDIR_TEST)/test-bashargs.sh
-	$(WAXWING) $(WORKDIR_TEST)
-
-$(WORKDIR_TEST)/test-bashargs.sh: \
-		$(WORKDIR_TEST)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh \
-		$(shell find test/bashargs -name 'test_bashargs*.sh')
-	$(boxerbird::build-bash-library)
-
-ifneq ($(DESTDIR),  $(WORKDIR_TEST))
-$(WORKDIR_TEST)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh:
-	@$(MAKE) install DESTDIR=$(abspath $(WORKDIR_TEST))
-endif
+private_test: test-makefile test-bashargs
+	@echo "INFO: Testing complete"
+	@echo
 
 
 .PHONY: private_uninstall
