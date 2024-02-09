@@ -16,8 +16,8 @@ function bashargs::add_required_value() {
 function bashargs::parse_args() {
     unset ${!__BASHARGS_ARRAY__@}
     bashargs::_initialize_optional_args
-    bashargs::_process_args $@
-    bashargs::_check_required_args $@
+    bashargs::_process_args "$@"
+    bashargs::_check_required_args "$@"
 }
 
 function bashargs::get_arg() {
@@ -118,7 +118,7 @@ function  bashargs::_process_args() {
                                 exit 1
                             fi
                         fi
-                        export ${__BASHARGS_ARRAY_ARGNAME__}=${1#*=}
+                        export ${__BASHARGS_ARRAY_ARGNAME__}="${1#*=}"
                         invalid_argument=false
                         shift
                         break

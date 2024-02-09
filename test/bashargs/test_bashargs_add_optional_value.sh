@@ -18,6 +18,18 @@ function test_bashargs_add_optional_value_parse_with_non_empty_value() {
     [[ $(bashargs::get_arg --argname) == "value" ]]
 }
 
+function test_bashargs_add_optional_value_parse_with_quoted_value () {
+    bashargs::add_optional_value --argname
+    bashargs::parse_args --argname="value"
+    [[ $(bashargs::get_arg --argname) == "value" ]]
+}
+
+function test_bashargs_add_optional_value_parse_with_quoted_value_spaces () {
+    bashargs::add_optional_value --argname
+    bashargs::parse_args --argname="value value"
+    [[ $(bashargs::get_arg --argname) == "value value" ]]
+}
+
 function test_bashargs_add_optional_value_parse_repeated() {
     local return_code=0
     bashargs::add_optional_value --argname
