@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 ```
 
+## [0.3.2] - 2024-02-09
+### Fixed
+- Fixed bash argument passing to allow quoted strings with spaces as arguments
+
+
 ## [0.3.1] - 2024-01-16
 ### Added
 - Improved the verbosity of the Makefile targets to help indicate when targets are completed.
