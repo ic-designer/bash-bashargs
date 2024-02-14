@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.3.2] - 2024-02-09
 ### Fixed
-- Fixed bash argument passing to allow quoted strings with spaces as arguments
+- Fixed bash argument passing to allow quoted strings with spaces as arguments.
 
 
 ## [0.3.1] - 2024-01-16
@@ -56,7 +56,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Code usage snippet now included in the readme.
 ### Changed
-- Shared makefile utilities are now cloned from the Boxerbird repo
+- Shared makefile utilities are now cloned from the Boxerbird repo.
 ### Fixed
 - Corrected issue with GitHub workflow where make target were not properly ran by calling each
   make target as a seperate command.
@@ -65,11 +65,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.0] - 2024-01-08
 ### Added
-- Added an `install` target to standardize the usage of the library
-- GitHub workflow expanded to call targets `check`, `test`, `install`, `uninstall`
+- Added an `install` target to standardize the usage of the library.
+- GitHub workflow expanded to call targets `check`, `test`, `install`, `uninstall`.
 ### Changed
-- Renamed the Makefile from `makefile` to `Makefile`
-- Reorganized the structure of the Makefile
+- Renamed the Makefile from `makefile` to `Makefile`.
+- Reorganized the structure of the Makefile.
 - Updated Makefile variables names to maintain consistency with other similar repos.
 
 
