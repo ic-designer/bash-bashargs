@@ -1,16 +1,16 @@
 function bashargs::add_optional_flag() {
     local -r _argname=$1
-    bashargs::_append_arg_list flag ${_argname} optional
+    bashargs::_append_arg_list flag ${_argname} optional -
 }
 
 function bashargs::add_optional_value() {
     local -r _argname=$1
-    bashargs::_append_arg_list value ${_argname} optional
+    bashargs::_append_arg_list value ${_argname} optional default=${2:-}
 }
 
 function bashargs::add_required_value() {
     local -r _argname=$1
-    bashargs::_append_arg_list value ${_argname} required
+    bashargs::_append_arg_list value ${_argname} required -
 }
 
 function bashargs::parse_args() {
@@ -31,7 +31,8 @@ function  bashargs::_append_arg_list() {
     local -r _argtype=$1
     local -r _argname=$2
     local -r _necessity=$3
-    local -r entry=( $_argtype ${_argname} ${_necessity})
+    local -r _default=$4
+    local -r entry=( "${_argtype} ${_argname} ${_necessity} ${_default}" )
 
     if [[ -z ${__BASHARGS_ARG_LIST__++} ]]; then
         __BASHARGS_ARG_LIST__=( ${entry[@]} )
@@ -41,13 +42,13 @@ function  bashargs::_append_arg_list() {
                 echo "ERROR: repeated argument: ${_argname}" 1>&2
                 exit 1
             fi
-        done < <(echo $( bashargs::_get_arg_list) | xargs -n 3 2>/dev/null)
+        done < <(echo $(bashargs::_get_arg_list)| xargs -n 4 2>/dev/null)
         __BASHARGS_ARG_LIST__=( ${__BASHARGS_ARG_LIST__[@]}  ${entry[@]} )
     fi
 }
 
 function bashargs::_check_required_args() {
-    while \read -t 1 -r _argtype _argname _necessity ; do
+    while \read -t 1 -r _argtype _argname _necessity _default ; do
         if [[ ${_necessity} == "required" ]]; then
             local __BASHARGS_ARRAY_ARGNAME__=$(bashargs::_get_arg_varname ${_argname})
             if [[ -z ${!__BASHARGS_ARRAY_ARGNAME__++} ]]; then
@@ -56,7 +57,7 @@ function bashargs::_check_required_args() {
             fi
 
         fi
-    done < <(echo $( bashargs::_get_arg_list) | xargs -n 3 2>/dev/null)
+    done < <(echo $(bashargs::_get_arg_list)| xargs -n 4 2>/dev/null)
 }
 
 function  bashargs::_get_arg_list() {
@@ -69,7 +70,7 @@ function bashargs::_get_arg_varname() {
 }
 
 function  bashargs::_initialize_optional_args() {
-    while \read -t 1 -r _argtype _argname _necessity ; do
+    while \read -t 1 -r _argtype _argname _necessity _default ; do
         if [[ -n ${_argname} ]]; then
             local __BASHARGS_ARRAY_ARGNAME__=$(bashargs::_get_arg_varname ${_argname})
             if [[ -n ${!__BASHARGS_ARRAY_ARGNAME__++} ]]; then
@@ -82,18 +83,18 @@ function  bashargs::_initialize_optional_args() {
                         export ${__BASHARGS_ARRAY_ARGNAME__}=false
                         ;;
                     value)
-                        export ${__BASHARGS_ARRAY_ARGNAME__}=
+                        export ${__BASHARGS_ARRAY_ARGNAME__}=${_default#*=}
                         ;;
                 esac
             fi
         fi
-    done < <(echo $( bashargs::_get_arg_list) | xargs -n 3 2>/dev/null)
+    done < <(echo $(bashargs::_get_arg_list)| xargs -n 4 2>/dev/null)
 }
 
 function  bashargs::_process_args() {
     while [[ $# -gt 0 ]]; do
         local invalid_argument=true
-        while \read -t 1 -r _argtype _argname _necessity ; do
+        while \read -t 1 -r _argtype _argname _necessity _default; do
             local __BASHARGS_ARRAY_ARGNAME__=$(bashargs::_get_arg_varname ${_argname})
             case ${_argtype} in
                 flag)
@@ -129,7 +130,7 @@ function  bashargs::_process_args() {
                     exit 1
                     ;;
             esac
-        done < <(echo $( bashargs::_get_arg_list) | xargs -n 3 2>/dev/null)
+        done < <(echo $(bashargs::_get_arg_list)| xargs -n 4 2>/dev/null)
         if [[ "${invalid_argument}" == "true" ]]; then
             echo "ERROR: Unknown option $1"
             exit 1

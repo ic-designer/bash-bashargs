@@ -12,6 +12,18 @@ function test_bashargs_add_optional_value_parse_with_empty_value() {
     [[ $(bashargs::get_arg --argname) == "" ]]
 }
 
+function test_bashargs_add_optional_value_parse_with_empty_default_value() {
+    bashargs::add_optional_value --argname ""
+    bashargs::parse_args
+    [[ $(bashargs::get_arg --argname) == "" ]]
+}
+
+function test_bashargs_add_optional_value_parse_with_non_empty_default_value() {
+    bashargs::add_optional_value --argname value
+    bashargs::parse_args
+    [[ $(bashargs::get_arg --argname) == "value" ]]
+}
+
 function test_bashargs_add_optional_value_parse_with_non_empty_value() {
     bashargs::add_optional_value --argname
     bashargs::parse_args --argname=value
