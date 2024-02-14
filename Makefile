@@ -11,6 +11,9 @@ clean: private_clean
 .PHONY: install
 install: private_install
 
+.PHONY: mostlyclean
+mostlyclean: private_mostlyclean
+
 .PHONY: test
 test: private_test
 

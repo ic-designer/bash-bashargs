@@ -54,6 +54,15 @@ $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh: $(WORKDIR_BUILD)/bashargs.sh
 	$(boxerbird::install-as-copy)
 
 
+.PHONY: private_mostlyclean
+private_mostlyclean:
+	@echo "INFO: Cleaning most directories:"
+	@$(if $(wildcard $(WORKDIR_BUILD)), rm -rfv $(WORKDIR_BUILD))
+	@$(if $(wildcard $(WORKDIR_TEST)), rm -rfv $(WORKDIR_TEST))
+	@echo "INFO: Cleaning complete"
+	@echo
+
+
 .PHONY: private_test
 private_test: test-makefile test-bashargs
 	@echo "INFO: Testing complete"
