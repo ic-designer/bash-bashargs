@@ -16,6 +16,6 @@ $(WORKDIR_TEST)/test-bashargs.sh: \
 	$(boxerbird::build-bash-library)
 
 ifneq ($(DESTDIR),  $(WORKDIR_TEST))
-$(WORKDIR_TEST)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh:
+$(WORKDIR_TEST)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh: $(WORKDIR_BUILD)/bashargs.sh
 	@$(MAKE) install DESTDIR=$(abspath $(WORKDIR_TEST))
 endif
