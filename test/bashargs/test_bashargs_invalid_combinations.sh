@@ -1,4 +1,3 @@
-#! /usr/bin/env bash
 function test_bashargs_add_required_value_with_existing_repeated_optional_declaration() {
     local return_code=0
     bashargs::add_optional_value --argname
