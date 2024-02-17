@@ -14,13 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 ```
 
-## [Unreleased] - YYYY-MM-DD
+## [0.3.3] - 2024-02-16
 ### Added
 - Added defaults for optional value arguments.
-### Changed
-### Deprecated
-### Fixed
-### Security
 
 
 ## [0.3.2] - 2024-02-09
