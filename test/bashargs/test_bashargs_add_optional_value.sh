@@ -72,7 +72,7 @@ function test_bashargs_add_optional_value_parse_with_quoted_value_spaces () {
     [[ $(bashargs::get_arg --argname) == "value value" ]]
 }
 
-function test_bashargs_add_optional_value_parse_repeated() {
+function test_bashargs_add_optional_value_parse_repeated_invocation() {
     local return_code=0
     bashargs::add_optional_value --argname
     $(bashargs::parse_args --argname=value1 --argname=value2) || return_code=1

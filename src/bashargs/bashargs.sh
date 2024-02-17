@@ -237,13 +237,13 @@ function bashargs::_process_args() {
         while \read -t 1 -r _argtype _argname _necessity _default; do
             local varname_count=$(bashargs::_get_varname_arg_count ${_argname})
             local varname_value=$(bashargs::_get_varname_arg_value ${_argname})
-            if [[ -n ${!varname_count++} ]]; then
-                echo "ERROR: repeated argument: ${_argname}" 1>&2
-                exit 1
-            fi
             case ${_argtype} in
                 flag)
                     if [[ $1 = ${_argname} ]]; then
+                        if [[ -n ${!varname_count++} ]]; then
+                            echo "ERROR: repeated argument: ${_argname}" 1>&2
+                            exit 1
+                        fi
                         export ${varname_value}=true
                         export ${varname_count}=1
                         invalid_argument=false
@@ -253,6 +253,10 @@ function bashargs::_process_args() {
                     ;;
                 value)
                     if [[ $1 =~ ^${_argname}= ]]; then
+                        if [[ -n ${!varname_count++} ]]; then
+                            echo "ERROR: repeated argument: ${_argname}" 1>&2
+                            exit 1
+                        fi
                         export ${varname_value}="${1#*=}"
                         export ${varname_count}=1
                         invalid_argument=false

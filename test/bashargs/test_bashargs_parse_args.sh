@@ -17,3 +17,19 @@ function test_bashargs_parse_args_repeated_parse_without_and_with_optional_flag(
     bashargs::parse_args --argname
     [[ $(bashargs::get_arg --argname) == "true" ]]
 }
+
+function test_bashargs_parse_args_mulitple_required_arguments() {
+    bashargs::add_required_value --alpha
+    bashargs::add_required_value --beta
+    bashargs::parse_args --alpha=alpha --beta=beta
+    [[ $(bashargs::get_arg --alpha) == "alpha" ]]
+    [[ $(bashargs::get_arg --beta) == "beta" ]]
+}
+
+function test_bashargs_parse_args_mulitple_optional_arguments() {
+    bashargs::add_optional_value --alpha
+    bashargs::add_optional_value --beta
+    bashargs::parse_args --alpha=alpha --beta=beta
+    [[ $(bashargs::get_arg --alpha) == "alpha" ]]
+    [[ $(bashargs::get_arg --beta) == "beta" ]]
+}
