@@ -25,7 +25,6 @@ override WORKDIR_TEST = $(WORKDIR_ROOT)/test/$(NAME)/$(VERSION)
 # Includes
 include make/deps.mk
 include test/bashargs/test_bashargs.mk
-include test/makefile/test_makefile.mk
 -include $(BOXERBIRD.MK)
 
 # Targets
@@ -71,6 +70,7 @@ private_mostlyclean:
 private_test: test-makefile test-bashargs
 	@echo "INFO: Testing complete"
 	@echo
+$(eval $(call bowerbird::generate-test-runner,test-makefile,test/makefile/,test*.mk))
 
 
 .PHONY: private_uninstall
