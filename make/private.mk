@@ -1,18 +1,22 @@
 # Config
 .DELETE_ON_ERROR:
 .SUFFIXES:
+MAKEFLAGS += --jobs
 MAKEFLAGS += --no-builtin-rules
-
-# Paths
-DESTDIR =
-PREFIX = $(HOME)/.local
-LIBDIR = $(PREFIX)/lib
-WORKDIR_ROOT := $(CURDIR)/.make
+MAKEFLAGS += --no-builtin-variables
+MAKEFLAGS += --no-print-directory
+MAKEFLAGS += --shuffle
+MAKEFLAGS += --warn-undefined-variables
 
 # Constants
-override NAME := bashargs
-override VERSION := $(shell git describe --always --dirty --broken 2> /dev/null)
+NAME := bashargs
+VERSION := $(shell git describe --always --dirty --broken 2> /dev/null)
 
+# Paths
+DESTDIR ?= $(error ERROR: Undefined variable DESTDIR)
+LIBDIR ?= $(error ERROR: Undefined variable LIBDIR)
+PREFIX ?= $(error ERROR: Undefined variable PREFIX)
+WORKDIR_ROOT ?= $(error ERROR: Undefined variable WORKDIR_ROOT))
 override PKGSUBDIR = $(NAME)
 override WORKDIR_BUILD = $(WORKDIR_ROOT)/build/$(NAME)/$(VERSION)
 override WORKDIR_DEPS = $(WORKDIR_ROOT)/deps

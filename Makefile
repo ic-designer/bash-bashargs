@@ -1,3 +1,10 @@
+# Paths
+DESTDIR =
+PREFIX = $(HOME)/.local
+LIBDIR = $(PREFIX)/lib
+WORKDIR_ROOT := $(CURDIR)/.make
+
+
 # Targets
 .PHONY: all
 all: private_all
@@ -7,6 +14,7 @@ check: private_test
 
 .PHONY: clean
 clean: private_clean
+	@$(if $(wildcard .waxwing), rm -rfv .waxwing)
 
 .PHONY: install
 install: private_install
