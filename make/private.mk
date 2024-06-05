@@ -17,10 +17,10 @@ DESTDIR ?= $(error ERROR: Undefined variable DESTDIR)
 LIBDIR ?= $(error ERROR: Undefined variable LIBDIR)
 PREFIX ?= $(error ERROR: Undefined variable PREFIX)
 WORKDIR_ROOT ?= $(error ERROR: Undefined variable WORKDIR_ROOT))
+WORKDIR_DEPS = $(WORKDIR_ROOT)/deps
+WORKDIR_BUILD = $(WORKDIR_ROOT)/build/$(NAME)/$(VERSION)
+WORKDIR_TEST = $(WORKDIR_ROOT)/test/$(NAME)/$(VERSION)
 override PKGSUBDIR = $(NAME)
-override WORKDIR_BUILD = $(WORKDIR_ROOT)/build/$(NAME)/$(VERSION)
-override WORKDIR_DEPS = $(WORKDIR_ROOT)/deps
-override WORKDIR_TEST = $(WORKDIR_ROOT)/test/$(NAME)/$(VERSION)
 
 # Includes
 include make/deps.mk
