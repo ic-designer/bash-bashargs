@@ -25,7 +25,6 @@ override WORKDIR_TEST = $(WORKDIR_ROOT)/test/$(NAME)/$(VERSION)
 # Includes
 include make/deps.mk
 include test/bashargs/test_bashargs.mk
--include $(BOXERBIRD.MK)
 
 # Targets
 .PHONY: private_all
@@ -33,7 +32,7 @@ private_all: $(WORKDIR_BUILD)/bashargs.sh
 	@for f in $^; do test -f $${f}; done
 
 $(WORKDIR_BUILD)/bashargs.sh: src/bashargs/bashargs.sh
-	$(boxerbird::install-as-copy)
+	$(bowerbird::install-as-copy)
 
 
 .PHONY: private_clean
@@ -54,7 +53,7 @@ private_install: $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh
 	@echo
 
 $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh: $(WORKDIR_BUILD)/bashargs.sh
-	$(boxerbird::install-as-copy)
+	$(bowerbird::install-as-copy)
 
 
 .PHONY: private_mostlyclean
