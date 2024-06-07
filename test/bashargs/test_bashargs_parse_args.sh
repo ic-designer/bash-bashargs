@@ -33,3 +33,16 @@ function test_bashargs_parse_args_mulitple_optional_arguments() {
     [[ $(bashargs::get_arg --alpha) == "alpha" ]]
     [[ $(bashargs::get_arg --beta) == "beta" ]]
 }
+
+function test_bashargs_parse_args_twice_with_different_value() {
+    bashargs::add_optional_value --alpha
+    bashargs::add_optional_value --beta
+
+    bashargs::parse_args --alpha=alpha --beta=beta
+    [[ $(bashargs::get_arg --alpha) == "alpha" ]]
+    [[ $(bashargs::get_arg --beta) == "beta" ]]
+
+    bashargs::parse_args --alpha=delta --beta=gamma
+    [[ $(bashargs::get_arg --alpha) == "delta" ]]
+    [[ $(bashargs::get_arg --beta) == "gamma" ]]
+}

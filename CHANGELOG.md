@@ -14,6 +14,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 ```
 
+## [0.3.4] - 2024-06-07
+### Added
+- Added descriptions to the make targets for `make help`.
+- Added more tests to address repeated argument calls.
+- Added the flag `--warn-undefined-variable` to `MAKEFLAGS`.
+### Changed
+- The repo now uses the bowerbird tools to manage makefile related tests and create
+  test targets.
+### Fixed
+- The test runner is now stricter about undefined variables and will fail test if an
+  undefined variable is encountered during the test.
+
+
 ## [0.3.3] - 2024-02-16
 ### Added
 - Added defaults for optional value arguments.

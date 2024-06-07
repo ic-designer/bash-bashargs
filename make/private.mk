@@ -1,28 +1,29 @@
 # Config
 .DELETE_ON_ERROR:
 .SUFFIXES:
+MAKEFLAGS += --jobs
 MAKEFLAGS += --no-builtin-rules
-
-# Paths
-DESTDIR =
-PREFIX = $(HOME)/.local
-LIBDIR = $(PREFIX)/lib
-WORKDIR_ROOT := $(CURDIR)/.make
+MAKEFLAGS += --no-builtin-variables
+MAKEFLAGS += --no-print-directory
+MAKEFLAGS += --shuffle
+MAKEFLAGS += --warn-undefined-variables
 
 # Constants
-override NAME := bashargs
-override VERSION := $(shell git describe --always --dirty --broken 2> /dev/null)
+NAME := bashargs
+VERSION := $(shell git describe --always --dirty --broken 2> /dev/null)
 
+# Paths
+DESTDIR ?= $(error ERROR: Undefined variable DESTDIR)
+LIBDIR ?= $(error ERROR: Undefined variable LIBDIR)
+PREFIX ?= $(error ERROR: Undefined variable PREFIX)
+WORKDIR_ROOT ?= $(error ERROR: Undefined variable WORKDIR_ROOT)
+WORKDIR_BUILD = $(WORKDIR_ROOT)/build/$(NAME)/$(VERSION)
+WORKDIR_DEPS = $(WORKDIR_ROOT)/deps
+WORKDIR_TEST = $(WORKDIR_ROOT)/test/$(NAME)/$(VERSION)
 override PKGSUBDIR = $(NAME)
-override WORKDIR_BUILD = $(WORKDIR_ROOT)/build/$(NAME)/$(VERSION)
-override WORKDIR_DEPS = $(WORKDIR_ROOT)/deps
-override WORKDIR_TEST = $(WORKDIR_ROOT)/test/$(NAME)/$(VERSION)
 
 # Includes
 include make/deps.mk
-include test/bashargs/test_bashargs.mk
-include test/makefile/test_makefile.mk
--include $(BOXERBIRD.MK)
 
 # Targets
 .PHONY: private_all
@@ -30,7 +31,7 @@ private_all: $(WORKDIR_BUILD)/bashargs.sh
 	@for f in $^; do test -f $${f}; done
 
 $(WORKDIR_BUILD)/bashargs.sh: src/bashargs/bashargs.sh
-	$(boxerbird::install-as-copy)
+	$(bowerbird::install-as-copy)
 
 
 .PHONY: private_clean
@@ -51,7 +52,7 @@ private_install: $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh
 	@echo
 
 $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh: $(WORKDIR_BUILD)/bashargs.sh
-	$(boxerbird::install-as-copy)
+	$(bowerbird::install-as-copy)
 
 
 .PHONY: private_mostlyclean
@@ -64,9 +65,10 @@ private_mostlyclean:
 
 
 .PHONY: private_test
-private_test: test-makefile test-bashargs
+private_test: test-bashargs-bowerbird test-bashargs-waxwing
 	@echo "INFO: Testing complete"
 	@echo
+$(eval $(call bowerbird::generate-test-runner,test-bashargs-bowerbird,test,test*.mk))
 
 
 .PHONY: private_uninstall
