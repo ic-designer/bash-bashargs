@@ -6,7 +6,7 @@ WAXWING ?= $(error ERROR: Undefined variable WAXWING)
 WORKDIR_TEST ?= $(error ERROR: Undefined variable WORKDIR_TEST)
 
 # Targets
-test-bashargs-waxwing: $(WAXWING) $(WORKDIR_TEST)/test-bashargs.sh
+test-bashargs-waxwing: $(WORKDIR_TEST)/test-bashargs.sh
 	$(WAXWING) $(WORKDIR_TEST)
 
 $(WORKDIR_TEST)/test-bashargs.sh: \
