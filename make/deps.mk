@@ -25,6 +25,7 @@ $(eval $(call bowerbird::git-dependency,$(WORKDIR_DEPS)/bowerbird-test,\
 # Other Dependencies
 WAXWING_BRANCH := main
 override WAXWING := $(WORKDIR_DEPS)/bash-waxwing/bin/waxwing
+.NOTPARALLEL: $(WAXWING)
 $(WAXWING):
 	@echo "Loading Waxwing..."
 	@git clone  --config advice.detachedHead=false --depth 1 \
