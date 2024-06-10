@@ -14,6 +14,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Security
 ```
 
+## [Unreleased] - YYYY-MM-DD
+### Added
+### Changed
+- Waxwing tests no longer use recursive make to test on an installed directory, but
+  instead will test the built bashargs library itself.
+### Deprecated
+### Fixed
+- Waxing is now loaded as an include file instead of a prerequisite so that parallel
+  jobs don't keep cloning the repo on itself.
+### Security
+
+
 ## [0.3.4] - 2024-06-07
 ### Added
 - Added descriptions to the make targets for `make help`.
