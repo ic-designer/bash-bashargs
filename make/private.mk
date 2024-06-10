@@ -24,6 +24,7 @@ override PKGSUBDIR = $(NAME)
 
 # Includes
 include make/deps.mk
+include test/bashargs/test_bashargs_waxwing.mk
 
 # Targets
 .PHONY: private_all
@@ -68,7 +69,7 @@ private_mostlyclean:
 private_test: test-bashargs-bowerbird test-bashargs-waxwing
 	@echo "INFO: Testing complete"
 	@echo
-$(eval $(call bowerbird::generate-test-runner,test-bashargs-bowerbird,test,test*.mk))
+$(eval $(call bowerbird::generate-test-runner,test-bashargs-bowerbird,test/makefile,test*.mk))
 
 
 .PHONY: private_uninstall
