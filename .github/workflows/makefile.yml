@@ -25,12 +25,12 @@ jobs:
     - name: Run check
       run: |
         make clean
-        make check
+        make check --debug=v SHELL='sh -xvp'
 
     - name: Run test
       run: |
         make clean
-        make test
+        make test --debug=v SHELL='sh -xvp'
 
     - name: Run staged install and uninstall
       run: |
