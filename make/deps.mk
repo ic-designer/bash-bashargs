@@ -22,9 +22,12 @@ $(eval $(call bowerbird::git-dependency,$(WORKDIR_DEPS)/bowerbird-test,\
 
 # Other Dependencies
 WAXWING_BRANCH := main
-WAXWING.MK = $(WORKDIR_DEPS)/bash-waxwing/waxwing.mk
-$(WAXWING.MK):
-	@echo "Loading Waxwing..."
+WAXWING = $(WORKDIR_DEPS)/bash-waxwing/bin/waxwing
+.NOTPARALLEL: $(WAXWING)
+.PRECIOUS: $(WAXWING)
+$(WAXWING):
+	@echo "INFO: Building $@..."
 	@git clone  --config advice.detachedHead=false --depth 1 https://github.com/ic-designer/bash-waxwing.git --branch $(WAXWING_BRANCH) $(WORKDIR_DEPS)/bash-waxwing
+	@test -f $@
+	@echo "INFO: Build $@ complete."
 	@echo
-include $(WAXWING.MK)
