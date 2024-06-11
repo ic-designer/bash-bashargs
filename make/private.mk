@@ -50,6 +50,7 @@ private_install: $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh
 	@echo "INFO: Installation complete"
 	@echo
 
+.PRECIOUS: $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh
 $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh: $(WORKDIR_BUILD)/bashargs.sh
 	$(bowerbird::install-as-copy)
 
