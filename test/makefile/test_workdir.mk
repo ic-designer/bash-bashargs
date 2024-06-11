@@ -4,12 +4,12 @@ test-workdir-root:
 
 test-workdir-build: WORKDIR_BUILD=build
 test-workdir-build:
-	test $(WORKDIR_BUILD) = build
+	test "$(WORKDIR_BUILD)" = "build"
 	$(call bashargs::test-workdir::build-helper)
 
 test-workdir-deps: WORKDIR_DEPS=deps
 test-workdir-deps:
-	test $(WORKDIR_DEPS) = deps
+	test "$(WORKDIR_DEPS)" = "deps"
 	$(call bashargs::test-workdir::build-helper)
 
 define bashargs::test-workdir::build-helper

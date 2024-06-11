@@ -3,12 +3,12 @@ test-install-destdir:
 
 test-install-libdir: LIBDIR=libdir
 test-install-libdir:
-	test $(LIBDIR) == libdir
+	test "$(LIBDIR)" = "libdir"
 	$(call bashargs::test-installer::install-helper)
 
 test-install-prefix: PREFIX=prefix
 test-install-prefix:
-	test $(PREFIX) == prefix
+	test "$(PREFIX)" = "prefix"
 	$(call bashargs::test-installer::install-helper)
 
 test-uninstall-destdir:
@@ -17,13 +17,13 @@ test-uninstall-destdir:
 
 test-uninstall-libdir: LIBDIR=libdir
 test-uninstall-libdir:
-	test $(LIBDIR) == libdir
+	test "$(LIBDIR)" = "libdir"
 	$(call bashargs::test-installer::install-helper)
 	$(call bashargs::test-installer::uninstall-helper)
 
 test-uninstall-prefix: PREFIX=prefix
 test-uninstall-prefix:
-	test $(PREFIX) == prefix
+	test "$(PREFIX)" = "prefix"
 	$(call bashargs::test-installer::install-helper)
 	$(call bashargs::test-installer::uninstall-helper)
 
