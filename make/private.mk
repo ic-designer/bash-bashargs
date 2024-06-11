@@ -65,10 +65,10 @@ private_mostlyclean:
 
 
 .PHONY: private_test
-private_test: test-bashargs-bowerbird test-bashargs-waxwing
+private_test: test-bashargs-makefile test-bashargs-waxwing
 	@echo "INFO: Testing complete"
 	@echo
-$(eval $(call bowerbird::generate-test-runner,test-bashargs-bowerbird,test/makefile,test*.mk))
+$(eval $(call bowerbird::generate-test-runner,test-bashargs-makefile,test/makefile,test*.mk))
 
 
 .PHONY: private_uninstall
