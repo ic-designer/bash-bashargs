@@ -4,9 +4,7 @@ WORKDIR_DEPS ?= $(error ERROR: Undefined variable WORKDIR_DEPS)
 # Load Bowerbird Dependency Tools
 BOWERBIRD_DEPS.MK := $(WORKDIR_DEPS)/bowerbird-deps/bowerbird_deps.mk
 $(BOWERBIRD_DEPS.MK):
-	@curl --silent --show-error --fail --create-dirs -o $@ -L \
-https://raw.githubusercontent.com/ic-designer/make-bowerbird-deps/\
-main/src/bowerbird-deps/bowerbird-deps.mk
+	@curl --silent --show-error --fail --create-dirs -o $@ -L https://raw.githubusercontent.com/ic-designer/make-bowerbird-deps/main/src/bowerbird-deps/bowerbird-deps.mk
 include $(BOWERBIRD_DEPS.MK)
 
 # Bowerbird Compatible Dependencies
@@ -27,8 +25,6 @@ WAXWING_BRANCH := main
 WAXWING.MK = $(WORKDIR_DEPS)/bash-waxwing/waxwing.mk
 $(WAXWING.MK):
 	@echo "Loading Waxwing..."
-	@git clone  --config advice.detachedHead=false --depth 1 \
-			https://github.com/ic-designer/bash-waxwing.git --branch $(WAXWING_BRANCH) \
-			$(WORKDIR_DEPS)/bash-waxwing
+	@git clone  --config advice.detachedHead=false --depth 1 https://github.com/ic-designer/bash-waxwing.git --branch $(WAXWING_BRANCH) $(WORKDIR_DEPS)/bash-waxwing
 	@echo
 include $(WAXWING.MK)
