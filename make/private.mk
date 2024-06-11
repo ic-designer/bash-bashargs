@@ -22,7 +22,7 @@ override PKGSUBDIR = $(NAME)
 
 # Includes
 include make/deps.mk
-include test/bashargs/test_bashargs_waxwing.mk
+include test/bashargs/test-bashargs-waxwing.mk
 
 # Targets
 .PHONY: private_all

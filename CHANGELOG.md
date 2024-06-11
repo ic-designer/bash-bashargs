@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Waxwing tests no longer use recursive make to test on an installed directory, but
   instead will test the built bashargs library itself.
+- Waxwing builds test file in a target specific named directory.
+- Test files renamed to use hyphens instead of underscores.
 ### Deprecated
 ### Fixed
 - Waxing is now loaded as an include file instead of a prerequisite so that parallel
