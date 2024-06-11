@@ -23,7 +23,6 @@ $(eval $(call bowerbird::git-dependency,$(WORKDIR_DEPS)/bowerbird-test,\
 # Other Dependencies
 WAXWING_BRANCH := main
 WAXWING = $(WORKDIR_DEPS)/bash-waxwing/bin/waxwing
-.NOTPARALLEL: $(WAXWING)
 .PRECIOUS: $(WAXWING)
 $(WAXWING):
 	@echo "INFO: Building $@..."
