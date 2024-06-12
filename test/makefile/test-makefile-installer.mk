@@ -32,8 +32,7 @@ define bashargs::test-installer::install-helper
 	$(MAKE) install \
 			DESTDIR=$(WORKDIR_TEST)/$@ \
 			PREFIX=$(PREFIX) \
-			LIBDIR=$(LIBDIR) \
-			2>/dev/null
+			LIBDIR=$(LIBDIR)
 	test -f $(WORKDIR_TEST)/$@/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh
 endef
 
@@ -41,7 +40,6 @@ define bashargs::test-installer::uninstall-helper
 	$(MAKE) uninstall \
 			DESTDIR=$(WORKDIR_TEST)/$@ \
 			PREFIX=$(PREFIX) \
-			LIBDIR=$(LIBDIR) \
-			2>/dev/null
+			LIBDIR=$(LIBDIR)
 	test ! -f $(WORKDIR_TEST)/$@/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh
 endef
