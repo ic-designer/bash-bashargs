@@ -16,14 +16,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - YYYY-MM-DD
 ### Added
+- Increased the verbosity of the github workflow commands.
 ### Changed
 - Waxwing tests no longer use recursive make to test on an installed directory, but
   instead will test the built bashargs library itself.
+- Waxwing builds test file in a target specific named directory.
+- Test files renamed to use hyphens instead of underscores.
+- Wrapped bowerbird macros with `ifdef` statements to avoid undefined variable warnings
+  with recursive make.
+- Removed the output suppression statements
 ### Deprecated
 ### Fixed
-- Waxing is now loaded as an include file instead of a prerequisite so that parallel
-  jobs don't keep cloning the repo on itself.
+- Marked the installed files as `.PRECIOUS` to avoid deletion when using recursive make
+  for installation.
+- Fixed the uninstall tests so that they actually try to uninstall a previous install.
+  The tests didn't do anything meaningful before.
+- Quoted strings in the variable value expressions in the installer tests that were
+  causing errors on the ubuntu remote runner.
+- Commands referencing a URL are now a single line to prevent errors when called as a
+  dependency of another repo.
+- Updated the github checkout action from v3 to v4 to fix deprecated node 16 warning.
+- All the Makefile tests are run in the unique working directory.
 ### Security
+- Removed the unnecessary SSH keys secret from the workflow file.
 
 
 ## [0.3.4] - 2024-06-07

@@ -4,8 +4,6 @@
 MAKEFLAGS += --jobs
 MAKEFLAGS += --no-builtin-rules
 MAKEFLAGS += --no-builtin-variables
-MAKEFLAGS += --no-print-directory
-MAKEFLAGS += --shuffle
 MAKEFLAGS += --warn-undefined-variables
 
 # Constants
@@ -24,7 +22,7 @@ override PKGSUBDIR = $(NAME)
 
 # Includes
 include make/deps.mk
-include test/bashargs/test_bashargs_waxwing.mk
+include test/bashargs/test-bashargs-waxwing.mk
 
 # Targets
 .PHONY: private_all
@@ -52,6 +50,7 @@ private_install: $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh
 	@echo "INFO: Installation complete"
 	@echo
 
+.PRECIOUS: $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh
 $(DESTDIR)/$(LIBDIR)/$(PKGSUBDIR)/bashargs.sh: $(WORKDIR_BUILD)/bashargs.sh
 	$(bowerbird::install-as-copy)
 
@@ -66,10 +65,13 @@ private_mostlyclean:
 
 
 .PHONY: private_test
-private_test: test-bashargs-bowerbird test-bashargs-waxwing
+private_test: test-bashargs-makefile test-bashargs-waxwing
 	@echo "INFO: Testing complete"
 	@echo
-$(eval $(call bowerbird::generate-test-runner,test-bashargs-bowerbird,test/makefile,test*.mk))
+
+ifdef bowerbird::generate-test-runner
+    $(eval $(call bowerbird::generate-test-runner,test-bashargs-makefile,test/makefile,test*.mk))
+endif
 
 
 .PHONY: private_uninstall

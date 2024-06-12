@@ -16,21 +16,17 @@ jobs:
             os: [ubuntu-latest, macos-latest]
 
     steps:
-    - uses: actions/checkout@v3
-
-    - uses: webfactory/ssh-agent@v0.8.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+    - uses: actions/checkout@v4
 
     - name: Run check
       run: |
         make clean
-        make check
+        make check --debug=v SHELL='sh -xvp'
 
     - name: Run test
       run: |
         make clean
-        make test
+        make test --debug=v SHELL='sh -xvp'
 
     - name: Run staged install and uninstall
       run: |
