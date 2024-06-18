@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Wrapped bowerbird macros with `ifdef` statements to avoid undefined variable warnings
   with recursive make.
 - Removed the output suppression statements
+- Updated the `bowerbird-deps` and `bowerbird-test` calls to the new syntax.
 ### Deprecated
 ### Fixed
 - Marked the installed files as `.PRECIOUS` to avoid deletion when using recursive make
